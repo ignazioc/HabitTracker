@@ -1,0 +1,84 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'commander/import'
+require 'terminal-table'
+require 'yaml'
+require 'date'
+require_relative 'archive'
+
+program :name, 'ht'
+program :version, '0.0.1'
+program :description, 'Track your monthly habits'
+
+command :add do |c|
+  c.syntax = 'ht add <habits>'
+  c.summary = 'Add one or more habits to the list'
+  c.description = 'Add one or more habits to the list'
+  c.example 'description', 'ht add_habit "Learn math" "Play piano"'
+  c.action do |args, _options|
+    archive = Archive.new
+    args.each do |habit|
+      archive.add_habit(habit)
+    end
+  end
+end
+
+command :rm do |c|
+  c.syntax = 'ht rm <options>'
+  c.summary = 'Remove one or more habits from the list'
+  c.description = 'Remove one or more habits from the list'
+  c.example 'description', 'ht rm_habit "Learn math" "Play piano"'
+  c.action do |args, _options|
+    archive = Archive.new
+    args.each do |habit|
+      archive.rm_habit(habit)
+    end
+  end
+end
+
+command :habits do |c|
+  c.syntax = 'ht habits'
+  c.summary = 'Print the list of current habits'
+  c.description = 'Print the list of current habits'
+  c.example 'description', 'ht habits'
+  c.action do |_args, _options|
+    Archive.new.print_habits
+  end
+end
+
+command :report do |c|
+  c.syntax = 'ht report'
+  c.summary = "Print the current month's activities"
+  c.description = "Print the current month's activities"
+  c.example 'description', 'ht report'
+  c.action do |_args, _options|
+    from = Date.new(Time.now.year, Time.now.month, 1)
+    to = Date.new(Time.now.year, Time.now.month, -1)
+    Archive.new.print_status(from, to)
+  end
+end
+
+command :do do |c|
+  c.syntax = 'ht do'
+  c.summary = 'Record your activities'
+  c.description = 'Record your activities'
+  c.example 'description', 'ht do'
+  c.action do |_args, _options|
+    archive = Archive.new
+
+    habit = choose('What did you do?', *archive.habits)
+    dates = (0..5).map { |i| (Date.today - i) }
+    options = dates.map { |date| date.strftime('%a %d') }
+
+    options[0] = 'Today'
+    options[1] = 'Yesteday'
+
+    choice = choose("When did you \"#{habit}\" the last time?", *options)
+    index = options.find_index(choice)
+
+    selected_date = dates[index]
+
+    archive.save(habit, selected_date)
+  end
+end

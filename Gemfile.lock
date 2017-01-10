@@ -1,0 +1,24 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    colorize (0.8.1)
+    commander (4.4.3)
+      highline (~> 1.7.2)
+    highline (1.7.8)
+    terminal-table (1.7.3)
+      unicode-display_width (~> 1.1.1)
+    unicode-display_width (1.1.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  colorize
+  commander
+  terminal-table
+
+RUBY VERSION
+   ruby 2.3.3p222
+
+BUNDLED WITH
+   1.13.7
