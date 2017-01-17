@@ -9,6 +9,11 @@ Habit Tracker
 
 ![](docs/linux_geek.jpg)
 
+## How to install
+    gem install habittracker
+
+## How to use it
+
 ```bash
 >./ht add "Play Tennis" "Study German" "Do 20 pushups" "Miracle morning"
 >./ht do
