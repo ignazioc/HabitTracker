@@ -1,11 +1,5 @@
 #!/usr/bin/env ruby
-
-require 'rubygems'
-require 'commander/import'
-require 'terminal-table'
-require 'yaml'
-require 'date'
-require_relative 'archive'
+require "habittracker"
 
 program :name, 'ht'
 program :version, '0.0.1'
