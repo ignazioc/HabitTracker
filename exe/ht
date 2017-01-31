@@ -1,19 +1,23 @@
 #!/usr/bin/env ruby
-require "habittracker"
+require 'habittracker'
 
 program :name, 'ht'
-program :version, '0.0.1'
+program :version, '0.1.1'
 program :description, 'Track your monthly habits'
+default_command :today
 
 command :add do |c|
-  c.syntax = 'ht add <habits>'
+  c.syntax = 'ht add <habits> [--schedule 1,2,4]'
   c.summary = 'Add one or more habits to the list'
   c.description = 'Add one or more habits to the list'
-  c.example 'description', 'ht add_habit "Learn math" "Play piano"'
-  c.action do |args, _options|
+  c.example 'Add a "Learn math" habit for Monday, Wednesday and Friday ', 'ht add_habit "Learn math" --schedule 1,3,5'
+  c.option '--schedule STRING', String, 'Days when this habit should be done. 0=Sunday,6=Saturday Multiple days must be separated by comma 1,2,4'
+  c.action do |args, options|
+    days = []
+    days = options.schedule.split(',').map(&:strip).map(&:to_i) unless options.schedule.nil?
     archive = Archive.new
     args.each do |habit|
-      archive.add_habit(habit)
+      archive.add_habit(habit, days)
     end
   end
 end
@@ -74,5 +78,18 @@ command :do do |c|
     selected_date = dates[index]
 
     archive.save(habit, selected_date)
+  end
+end
+
+command :today do |c|
+  c.syntax = 'ht today'
+  c.summary = 'Shows the list of habits you should do today'
+  c.description = 'Shows the list of habits you should do today'
+  c.example 'description', 'ht today'
+  c.action do |_args, _options|
+    archive = Archive.new
+    puts 'Today you should do:'
+    day_of_the_week = Time.now.strftime('%w').to_i
+    archive.habits_per_day(day_of_the_week).each { |h| puts "* #{h}" }
   end
 end

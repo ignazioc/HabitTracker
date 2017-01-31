@@ -1,11 +1,10 @@
 class Archive
-  
   def initialize
     @db_file = File.join(ENV['HOME'], '/.ht')
     load_archive
   end
 
-  def add_habit(habit)
+  def add_habit(habit, days = [])
     from = Date.new(Time.now.year, 1, 1)
     to = Date.new(Time.now.year, 12, 31)
 
@@ -13,6 +12,8 @@ class Archive
       mem[date_to_key(day)] = false
       mem
     end
+    @archive[habit][:schedule] = days
+
     store
     load_archive
   end
@@ -58,6 +59,12 @@ class Archive
     load_archive
   end
 
+  def habits_per_day(day)
+    @archive.keys.select do |habit|
+      @archive[habit][:schedule].include?(day)
+    end
+  end
+
   #-- Private Methods
 
   private def load_archive
@@ -67,7 +74,7 @@ class Archive
       end
     end
     @archive = YAML.load_file(@db_file)
-  end
+end
 
   private def store
     File.open(@db_file, 'w') do |file|
@@ -92,6 +99,4 @@ class Archive
   private def row_item(value)
     value ? { value: 'X', alignment: :center } : { value: '', alignment: :center }
   end
-
-
 end
