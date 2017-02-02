@@ -9,68 +9,92 @@ Habit Tracker
 
 ![](docs/linux_geek.jpg)
 
+## What you can do
+Create a list of habits you want to track
+```bash
+$ ht add "Play Tennis"
+```
+If you like, you can schedule each habit,
+
+```bash
+#Try to play tennis on each Saturday and Sunday
+$ ht add "Play Tennis" --schedule 6,0
+```
+
+have a reminder about what you should do today
+
+```bash
+$ ht today
+Today you should do:
+* Play Tennis
+```
+
+Track your activity
+```bash
+$ ht do
+What did you do?
+1. Play Tennis
+2. Reading that book
+?  2
+When did you "Reading that book" the last time?
+1. Today
+2. Yesteday
+3. Tue 31
+4. Mon 30
+5. Sun 29
+6. Sat 28
+?  1
+Any notes?: "Alfred is not dead"
+```
+
+and print a nice output with all your activities
+
+```bash
+› bundle exec ht report
++-----+-------------+----------------------+
+|                 February                 |
++-----+-------------+----------------------+
+| Day | Play Tennis | Reading that book    |
++-----+-------------+----------------------+
+| 01  |             |                      |
+| 02  |             | "Alfred is not dead" |
+| 03  |             |                      |
+| 04  |             |                      |
+| 05  |             |                      |
+| 06  |             |                      |
+| 07  |             |                      |
+| 08  |             |                      |
+| 09  |             |                      |
+| 10  |             |                      |
+| 11  |             |                      |
+| 12  |             |                      |
+| 13  |             |                      |
+| 14  |             |                      |
+| 15  |             |                      |
+| 16  |             |                      |
+| 17  |             |                      |
+| 18  |             |                      |
+| 19  |             |                      |
+| 20  |             |                      |
+| 21  |             |                      |
+| 22  |             |                      |
+| 23  |             |                      |
+| 24  |             |                      |
+| 25  |             |                      |
+| 26  |             |                      |
+| 27  |             |                      |
+| 28  |             |                      |
++-----+-------------+----------------------+
+```
+
+
+
 ## How to install
     gem install habittracker
 
 ## How to use it
 
-```bash
->./ht add "Play Tennis" "Study German" "Do 20 pushups" "Miracle morning"
->./ht do
-What did you do?
-1. Play Tennis
-2. Study German
-3. Do 20 pushup
-4. Miracle morning
-?  1
-When did you "Play Tennis" the last time?
-1. Today
-2. Yesteday
-3. Fri 13
-4. Thu 12
-5. Wed 11
-6. Tue 10
-?  1
 
-./ht report 
-
-+-----+-------------+--------------+--------------+-----------------+
-|                              January                              |
-+-----+-------------+--------------+--------------+-----------------+
-| Day | Play Tennis | Study German | Do 20 pushup | Miracle morning |
-+-----+-------------+--------------+--------------+-----------------+
-| 01  |             |              |              |        X        |
-| 02  |             |              |              |        X        |
-| 03  |             |              |              |        X        |
-| 04  |             |              |      X       |        X        |
-| 05  |             |              |              |        X        |
-| 06  |             |              |      X       |        X        |
-| 07  |      X      |              |              |        X        |
-| 08  |      X      |      X       |      X       |        X        |
-| 09  |             |              |      X       |        X        |
-| 10  |      X      |              |      X       |        X        |
-| 11  |             |      X       |              |        X        |
-| 12  |             |              |              |        X        |
-| 13  |             |      X       |      X       |        X        |
-| 14  |      X      |              |      X       |        X        |
-| 15  |             |              |              |        X        |
-| 16  |             |      X       |      X       |        X        |
-| 17  |             |              |              |        X        |
-| 18  |             |              |      X       |        X        |
-| 19  |             |      X       |              |        X        |
-| 20  |             |              |              |        X        |
-| 21  |             |      X       |      X       |        X        |
-| 22  |             |              |              |        X        |
-| 23  |             |      X       |              |        X        |
-| 24  |      X      |              |              |        X        |
-| 25  |             |              |              |        X        |
-| 26  |             |              |              |        X        |
-| 27  |             |      X       |              |        X        |
-| 28  |      X      |              |              |        X        |
-| 29  |             |              |              |        X        |
-| 30  |             |              |              |        X        |
-| 31  |             |              |              |        X        |
-+-----+-------------+--------------+--------------+-----------------+
 ```
   NAME:
 
@@ -88,6 +112,7 @@ When did you "Play Tennis" the last time?
     help   Display global or [command] help documentation
     report Print the current month's activities
     rm     Remove one or more habits from the list
+    today  Shows the list of habits you should do today
 
   GLOBAL OPTIONS:
 
@@ -99,5 +124,7 @@ When did you "Play Tennis" the last time?
 
     -t, --trace
         Display backtrace when an error occurs
+```
+
 
 
