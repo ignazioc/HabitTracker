@@ -9,7 +9,7 @@ class Archive
     to = Date.new(Time.now.year, 12, 31)
 
     @archive[habit] = from.upto(to).each_with_object({}) do |day, mem|
-      mem[date_to_key(day)] = false
+      mem[date_to_key(day)] = nil
       mem
     end
     @archive[habit][:schedule] = days
@@ -49,12 +49,12 @@ class Archive
     puts Terminal::Table.new title: Time.now.strftime('%B'), headings: header, rows: rows
   end
 
-  def save(habit, date)
+  def save(habit, date, note)
     calendar = @archive[habit]
     return if calendar.nil?
 
     key = date_to_key(date)
-    calendar[key] = true
+    calendar[key] = note.length > 0 ? note : "X"
     store
     load_archive
   end
@@ -97,6 +97,6 @@ end
   end
 
   private def row_item(value)
-    value ? { value: 'X', alignment: :center } : { value: '', alignment: :center }
+    value ? { value: value, alignment: :center } : { value: '', alignment: :center }
   end
 end

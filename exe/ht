@@ -77,7 +77,10 @@ command :do do |c|
 
     selected_date = dates[index]
 
-    archive.save(habit, selected_date)
+    message = ask("Any notes?: ")
+
+
+    archive.save(habit, selected_date, message)
   end
 end
 
